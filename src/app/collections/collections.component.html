@@ -1,0 +1,36 @@
+<div *ngIf="loading2" class="loadover">
+  <div class="lds-ring abs-center">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
+
+<ul class="collections_nav">
+  <li [routerLink]="['/collections/FW20']"  [routerLinkActive]="['collections_nav_active']"
+    class="collections_nav_item navbar_collection">FALL WINTER 2020</li>    
+  <li [routerLink]="['/collections/SS20']"  [routerLinkActive]="['collections_nav_active']"
+    class="collections_nav_item navbar_collection">SPRING SUMMER 2020</li>
+  <li [routerLink]="['/collections/FW19']"  [routerLinkActive]="['collections_nav_active']" class="collections_nav_item navbar_collection">
+    FALL WINTER 2019</li>
+  <li [routerLink]="['/collections/PF19']"  [routerLinkActive]="['collections_nav_active']" class="collections_nav_item">THE
+    ICONS</li>
+  <li [routerLink]="['/collections/SS19']"  [routerLinkActive]="['collections_nav_active']" class="collections_nav_item">
+    TIE DYE</li>
+</ul>
+<div [hidden]="loading">
+
+  <div class="collection-gallery" *ngIf="collection">
+    <img *ngFor="let image of images" class="collection-gallery_img" [src]="image < 10 ? 'assets/images/' + collection + '/' + collection +'_0' + image + '.jpg' 
+    : 'assets/images/' + collection + '/' + collection +'_' + image + '.jpg'" alt="image">
+  </div>
+
+  <div class="ipad" *ngIf="collection">
+    <img *ngFor="let image of images" class="ipad_img" [src]="image < 10 ? 'assets/images/' + collection + '/mobile/' + collection +'_0' + image + '.jpg' 
+    : 'assets/images/' + collection + '/mobile/' + collection +'_' + image + '.jpg'" alt="image">
+  </div>
+
+
+</div>

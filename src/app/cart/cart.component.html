@@ -1,0 +1,69 @@
+<!-- <div class="cart_bag">
+  <button class="cart_button" (click)="openModal()">{{ 'cart.button' | translate }}</button>
+</div> -->
+
+<div class="cart cart_modal">
+  <div class="cart_modal-content">
+    <p class="cart_modal-content-text">
+      {{ "cart.items" | translate
+      }}<span (click)="closeModal()" class="cart_modal-close">&times;</span>
+    </p>
+    <div
+      *ngFor="let lineItem of lineItems"
+      class="cart_modal_product mar-b-3 flex-container"
+    >
+      <div class="felx_40">
+        <img style="width: 100%" [src]="lineItem.variant.image.src" />
+      </div>
+      <div class="flex_60 cart_modal-content-container text-uppercase">
+        <h6 class="cart_modal-content-title mt-2">{{ lineItem.title }}</h6>
+        <p class="cart_modal-content-variant">{{ lineItem.variant.title }}</p>
+        <p class="cart_modal-content-price">
+          {{ "cart.currency" | translate
+          }}{{ lineItem.variant.price | currency: "USD":"symbol":"1.0-0" }}
+        </p>
+        <span *ngIf="lineItem.preorder != null">
+          {{ "product.preorder" | translate }}{{ lineItem.preorder }}
+        </span>
+        <p class="cart_modal-content-remove" (click)="removeItem(lineItem)">
+          x {{ "cart.remove" | translate }}
+        </p>
+      </div>
+    </div>
+
+    <div class="checkout">
+      <div class="flex-container" style="justify-content: space-between">
+        <span class="checkout_text">TOTAL: </span>
+        <span class="checkout_price"
+          >{{ "cart.currency" | translate
+          }}{{ total | currency: "USD":"symbol":"1.0-0" }}</span
+        >
+      </div>
+      <p class="tax mb-1">
+        {{ "cart.shipping" | translate }}
+      </p>
+
+      <!-- <div class="flex-container" style="justify-content: space-between;">
+            <span class="checkout_text" ></span>
+            <span class="checkout_price">{{ 'cart.currency' | translate }} {{total }}</span>
+          </div> -->
+      <button
+        type="button"
+        name="button"
+        class="checkout_btn"
+        (click)="createUpdateCheckout()"
+      >
+        {{ "cart.checkout" | translate }}
+      </button>
+      <!-- <p class="tax">
+        {{ "cart.taxes" | translate }}
+      </p>
+      <p class="tax" style="text-transform: uppercase">
+        {{ "cart.duties" | translate }}
+      </p> -->
+      <p class="tax mt-1 text-uppercase">
+        {{ "cart.desc" | translate }}
+      </p>
+    </div>
+  </div>
+</div>

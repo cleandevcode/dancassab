@@ -1,0 +1,33 @@
+<div class="row d-none d-md-flex align-items-center my-2">
+  <!--top left-->
+  <div class="col-md-3 col-xl-2 px-md-4 text-uppercase">
+    <p class="mb-0">{{ "menu" | translate }}</p>
+  </div>
+  <!--top middle-->
+  <div class="col-md-6 col-xl-8 text-center d-md-block">
+    <!-- LOGO-->
+    <a href="/">
+      <img src="../../assets/img/svg/logo.svg" height="30 px" href="/" />
+    </a>
+  </div>
+  <!--top right-->
+  <div
+    class="col-md-3 col-xl-2 d-md-flex align-items-center justify-content-end text-right text-uppercase"
+    (click)="openCart()"
+  >
+    <p style="cursor: pointer" class="mb-0">
+      {{ "cart.button" | translate }} ({{ globalService.navbarCartCount }})
+    </p>
+  </div>
+</div>
+<div class="row">
+  <!--2nd row left-->
+  <div class="col-3 d-none d-md-block pl-4 text-uppercase">
+    <span>{{ "navbar.shop" | translate }}</span>
+  </div>
+
+  <!--2nd row right-->
+  <div class="col-9 d-none d-md-block text-right">
+    <span>{{ "ticker" | translate }}</span>
+  </div>
+</div>

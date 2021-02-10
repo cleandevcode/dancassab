@@ -1,0 +1,356 @@
+<div class="row-mode" style="flex-wrap: unset">
+  <div class="col-md-3 col-xl-2 d-none d-md-block px-md-4">
+    <nav
+      class="navbar d-none d-md-block navbar-light shadow-0 navbar-collapse sticky-top"
+    >
+      <ul class="navbar-nav text-uppercase">
+        <!-- <li [routerLink]="['/shop/Sample Sale']"  [routerLinkActive]="['collections_nav_active']" class="collections_nav_item">
+    SAMPLE SALE</li> -->
+        <li
+          [routerLinkActive]="['collections_nav_active']"
+          class="nav-item ml-4"
+        >
+          <a href="/shop/THE ICONS">
+            {{ "collections.the icons" | translate }}
+          </a>
+        </li>
+        <li
+          [routerLinkActive]="['collections_nav_active']"
+          class="nav-item ml-4"
+        >
+          <a href="/shop/NEWIN">{{ "collections.new in" | translate }}</a>
+        </li>
+        <!-- <li [routerLink]="['/shop/Fall Winter 2019']"  [routerLinkActive]="['collections_nav_active']" class="collections_nav_item navbar_collection">
+    FALL WINTER 2019</li> -->
+        <li
+          [routerLinkActive]="['collections_nav_active']"
+          class="nav-item ml-4"
+        >
+          <a href="/shop/JACKETS">
+            {{ "collections.coat and jacket" | translate }}
+          </a>
+        </li>
+        <li
+          [routerLinkActive]="['collections_nav_active']"
+          class="nav-item ml-4"
+        >
+          <a href="/shop/TOPS">
+            {{ "collections.tops and tshirt" | translate }}
+          </a>
+        </li>
+        <li
+          [routerLinkActive]="['collections_nav_active']"
+          class="nav-item ml-4"
+        >
+          <a href="/shop/BOTTOMS"> {{ "collections.bottoms" | translate }} </a>
+        </li>
+        <li
+          [routerLinkActive]="['collections_nav_active']"
+          class="nav-item ml-4"
+        >
+          <a href="/shop/ACCESSORIES">{{
+            "collections.accesories" | translate
+          }}</a>
+        </li>
+        <li
+          [routerLinkActive]="['collections_nav_active']"
+          class="nav-item ml-4"
+        >
+          <a href="/shop/COLLAB">{{
+            "collections.collaborations" | translate
+          }}</a>
+        </li>
+        <li
+          [routerLinkActive]="['collections_nav_active']"
+          class="nav-item ml-4 navbar_collection"
+        >
+          <a href="/shop/SHOPALL"> {{ "collections.view all" | translate }} </a>
+        </li>
+        <li class="nav-item mt-5">
+          <a href="/voices">{{ "navbar.voices" | translate }}</a>
+        </li>
+        <li class="nav-item">
+          <a href="/lookbook">{{ "navbar.lookbook" | translate }}</a>
+        </li>
+        <li class="nav-item">
+          <a href="/about">{{ "navbar.about" | translate }}</a>
+        </li>
+        <li class="nav-item">
+          <a href="/stockist">{{ "navbar.stockist" | translate }}</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a href="/subscribe">{{ "navbar.subscribe" | translate }}</a>
+        </li> -->
+        <li class="nav-item">
+          <a href="https://instagram.com/dancassab/" target="_blank">{{
+            "navbar.instagram" | translate
+          }}</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a href="https://instagram.com/dancassab/" target="_blank">{{
+            "navbar.contact" | translate
+          }}</a>
+        </li> -->
+      </ul>
+    </nav>
+  </div>
+
+  <!-- First section -->
+
+  <!-- LOADER -->
+  <div *ngIf="loading" class="lds-ring abs-center mt-5-mobile">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <div
+    *ngIf="!loading"
+    id="fullpage1"
+    class="col-md-9 col-xl-8 text-left mt-5-mobile"
+  >
+    <!-- <section
+      *ngFor="let products of productsGroup; index as i"
+      class="section"
+      [id]="i"
+    > -->
+    <div class="row p-1" *ngIf="collection != 'COLLAB'">
+      <!-- <span class="grid_collection">{{products[0].collections[0].title}}</span> -->
+      <div
+        *ngFor="let product of results; let i = index"
+        class="col-xxl-3 col-lg-4 col-6 px-2 pt-0 pb-3"
+      >
+        <div
+          class="bg-image ripple container-fluid coll-bg p-0"
+          data-ripple-color="light"
+        >
+          <img
+            class="img-fluid router-active"
+            *ngIf="!product.not_campaign"
+            [routerLink]="['/product']"
+            [queryParams]="{
+              collection: product.collection,
+              title: product.title,
+              group: product.swatches[0].grp,
+              color: product.swatches[0].vnm,
+              index: 0
+            }"
+            [src]="product.img_shown"
+            alt="{{ product.title }}"
+            (mouseover)="
+              product.img_shown =
+                getTag(product, 'HURL:', 5) == 'NULL'
+                  ? product.images[0].src
+                  : getTag(product, 'HURL:', 5)
+            "
+            (mouseout)="product.img_shown = product.images[0]?.src"
+          />
+        </div>
+        <!-- <img
+                  class="img-fluid"
+                  *ngIf="!product.not_campaign"
+                  [routerLink]="['/product', product.collection, product.title, product.swatches[0].grp]"
+                  [src]="product.img_shown"
+                  (mouseover)="
+                    product.img_shown =
+                      '/assets/images/campaign/' +
+                      product.title.toLowerCase() +
+                      '_' +
+                      product.collection
+                        .toLowerCase()
+                        .replace(' ', '')
+                        .replace(' ', '') +
+                      '.jpg';
+                    checkOverlap(true, product.title)
+                  "
+                  (mouseout)="
+                    product.img_shown = product.images[0]?.src;
+                    checkOverlap(false, product.title)
+                  "
+                  alt="{{ product.title }}"
+                /> -->
+
+        <div class="row pt-1">
+          <div class="col d-flex align-items-center justify-content-between">
+            <div>
+              <span
+                class="router-active text-uppercase"
+                [routerLink]="['/product']"
+                [queryParams]="{
+                  collection: product.collection,
+                  title: product.title,
+                  group: product.swatches[0].grp,
+                  color: product.swatches[0].vnm,
+                  index: 0
+                }"
+              >
+                {{ product.title }}
+              </span>
+              <i class="time-font">{{ getTag(product, "CAT:", 4) }}</i>
+            </div>
+            <div class="row mt-n2">
+              <div class="col">
+                <img
+                  *ngFor="let color of product.swatches; let i = index"
+                  [src]="color.src"
+                  [routerLink]="['/product']"
+                  [queryParams]="{
+                    collection: product.collection,
+                    title: product.title,
+                    group: product.swatches[0].grp,
+                    color: product.swatches[i].vnm,
+                    index: i
+                  }"
+                  class="swatchimg router-active"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <span
+          class="router-active"
+          [routerLink]="['/product']"
+          [queryParams]="{
+            collection: product.collection,
+            title: product.title,
+            group: product.swatches[0].grp,
+            color: product.swatches[0].vnm,
+            index: 0
+          }"
+        >
+          <div
+            *ngIf="product.variants[0].compareAtPrice !== null"
+            class="d-flex align-items-center justify-content-between"
+          >
+            <s>
+              {{
+                product.variants[0].compareAtPrice
+                  | currency: "USD":"symbol":"1.0-0"
+              }}
+              &nbsp;{{ "product.currency" | translate }}
+            </s>
+            <span>
+              {{
+                (1 -
+                  product.variants[0].price /
+                    product.variants[0].compareAtPrice) *
+                  100 | number: "1.0-0"
+              }}% OFF
+            </span>
+          </div>
+          <span
+            >{{
+              product.variants[0].price | currency: "USD":"symbol":"1.0-0"
+            }}&nbsp;{{ "product.currency" | translate }}
+          </span>
+        </span>
+      </div>
+      <!-- <div *ngIf="product.variants[0].compareAtPrice != null">
+            <div class="promo">
+              <span class="per"
+                >{{
+                  getDiscount(
+                    product.variants[0].compareAtPrice,
+                    product.variants[0].price
+                  )
+                }}%<br />OFF</span
+              >
+              <div class="animate">
+                <span class="char1">S</span><span class="char2">A</span
+                ><span class="char3">L</span><span class="char4">E</span
+                ><span class="char5">.</span><span class="char6">S</span
+                ><span class="char7">A</span><span class="char8">L</span
+                ><span class="char9">E</span><span class="char10">.</span
+                ><span class="char11">S</span><span class="char12">A</span
+                ><span class="char13">L</span><span class="char14">E</span
+                ><span class="char15">.</span><span class="char16">S</span
+                ><span class="char17">A</span><span class="char18">L</span
+                ><span class="char19">E</span><span class="char20">.</span>
+              </div>
+            </div>
+          </div> -->
+    </div>
+    <div *ngIf="collection == 'COLLAB'">
+      <div class="row">
+        <div class="col-md-4 d-flex flex-column justify-content-between">
+          <div>
+            <img
+              class="img-fluid my-4 py-4"
+              src="https://cdn.shopify.com/s/files/1/0266/7072/7265/files/PAZ_GRIS_VERDE_2.jpg?v=1606752731"
+            />
+            <p class="text-center">LETA SOBIERAJSKI</p>
+            <p
+              class="collab-buttons"
+              [innerHTML]="'collab.first' | translate"
+            ></p>
+          </div>
+          <p class="text-center">
+            <a href="{{ pazURL }}">
+              <button
+                type="button"
+                class="btn ripple-surface-dark btn-outline-black shadow-0 rounded-0 btn-block px-2 times"
+                style="border: 2px solid #000"
+              >
+                <i> SHOP HERE </i>
+              </button>
+            </a>
+          </p>
+        </div>
+
+        <div class="col-md-4 d-flex flex-column justify-content-between">
+          <div>
+            <img
+              class="img-fluid my-4 py-4"
+              src="https://cdn.shopify.com/s/files/1/0266/7072/7265/files/img1.jpg?v=1606752714"
+            />
+
+            <p class="text-center">TIMELESS PEARLY</p>
+            <p
+              class="collab-buttons"
+              [innerHTML]="'collab.second' | translate"
+            ></p>
+          </div>
+
+          <p class="text-center">
+            <a href="https://www.dancassab.com/shop/TIMELESSPEARLY">
+              <button
+                type="button"
+                class="btn ripple-surface-dark btn-outline-black shadow-0 rounded-0 btn-block px-2 times"
+                style="border: 2px solid #000"
+              >
+                <i> SHOP HERE </i>
+              </button>
+            </a>
+          </p>
+        </div>
+
+        <div class="col-md-4 d-flex flex-column justify-content-between">
+          <div>
+            <img
+              class="img-fluid my-4 py-4"
+              src="https://cdn.shopify.com/s/files/1/0266/7072/7265/files/badlydrawn.jpg?v=1607716600"
+            />
+            <p class="text-center">BADLY DRAWN</p>
+            <p
+              class="collab-buttons"
+              [innerHTML]="'collab.third' | translate"
+            ></p>
+          </div>
+          <p class="text-center">
+            <a href="/shop/BADLYDRAWN">
+              <button
+                type="button"
+                class="btn ripple-surface-dark btn-outline-black shadow-0 rounded-0 btn-block px-2 times"
+                style="border: 2px solid #000"
+              >
+                <i> SHOP HERE </i>
+              </button>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </section> -->
+</div>

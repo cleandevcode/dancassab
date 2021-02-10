@@ -1,0 +1,134 @@
+<!--Menu mobile-->
+<nav
+  class="navbar d-block d-md-none navbar-light shadow-0 sticky-top-mobile bg-white"
+>
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler text-dark pl-0 text-uppercase"
+      type="button"
+      style="font-size: 1em"
+      (click)="handleMenu()"
+    >
+      {{ isOpen ? ("close" | translate) : ("menu" | translate) }}
+    </button>
+    <!-- Navbar brand -->
+    <a href="/">
+      <img
+        src="../../assets/img/svg/logo.svg"
+        height="20 px"
+        href="/"
+        class="ml-auto mr-auto"
+      />
+    </a>
+    <span (click)="openCart()" class="text-uppercase" style="cursor: pointer">
+      {{ "cart.button" | translate }} ({{ globalService.navbarCartCount }})
+    </span>
+    <!-- Collapsible wrapper -->
+    <div
+      class="open-close-container text-uppercase navbar-collapse ml-3 mt-3"
+      [@openClose]="isOpen ? true : false"
+    >
+      <div class="row">
+        <!--2nd row left-->
+        <div class="col-3 d-block d-md-none text-uppercase">
+          <span>{{ "navbar.shop" | translate }}</span>
+        </div>
+
+        <!--2nd row right-->
+        <div class="col-9 d-block d-md-none text-right">
+          <span>{{ "ticker" | translate }}</span>
+        </div>
+      </div>
+      <ul class="navbar-nav my-2">
+        <li class="nav-item ml-4">
+          <a class="nav-link" href="/shop/THE ICONS">{{
+            "collections.the icons" | translate
+          }}</a>
+        </li>
+        <li class="nav-item ml-4">
+          <a class="nav-link" href="/shop/NEWIN">{{
+            "collections.new in" | translate
+          }}</a>
+        </li>
+        <li class="nav-item ml-4">
+          <a class="nav-link" href="/shop/JACKETS">{{
+            "collections.coat and jacket" | translate
+          }}</a>
+        </li>
+        <li class="nav-item ml-4">
+          <a class="nav-link" href="/shop/TOPS">{{
+            "collections.tops and tshirt" | translate
+          }}</a>
+        </li>
+        <li class="nav-item ml-4">
+          <a class="nav-link" href="/shop/BOTTOMS">{{
+            "collections.bottoms" | translate
+          }}</a>
+        </li>
+        <li class="nav-item ml-4">
+          <a class="nav-link" href="/shop/ACCESSORIES">{{
+            "collections.accesories" | translate
+          }}</a>
+        </li>
+        <li class="nav-item ml-4">
+          <a class="nav-link" href="/shop/COLLAB">{{
+            "collections.collaborations" | translate
+          }}</a>
+        </li>
+
+        <li class="nav-item ml-4">
+          <a class="nav-link" href="/shop/SHOPALL">{{
+            "collections.view all" | translate
+          }}</a>
+        </li>
+        <li class="nav-item mt-4">
+          <a class="nav-link" href="/voices">{{
+            "navbar.voices" | translate
+          }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/lookbook">{{
+            "navbar.lookbook" | translate
+          }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">{{ "navbar.about" | translate }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/stockist">{{
+            "navbar.stockist" | translate
+          }}</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">{{ "navbar.subscribe" | translate }}</a>
+        </li> -->
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="https://instagram.com/dancassab/"
+            target="_blank"
+            >{{ "navbar.instagram" | translate }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="/terms">{{
+            "navbar.terms" | translate
+          }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="/privacy">{{
+            "navbar.privacy" | translate
+          }}</a>
+        </li>
+      </ul>
+
+      <span class="justify-content-center">
+        &copy; 2020 DANCASSAB SA DE CV
+      </span>
+    </div>
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Menu desktop-->

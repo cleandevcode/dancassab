@@ -1,0 +1,17 @@
+.notfound{
+    margin-left: 4em;
+    margin-top: 8em; 
+    text-align: center
+}
+
+p{
+    font-size: 10px;
+}
+
+a{
+    font-size: 18px;
+}
+
+strong{
+    font-size: 30px
+}

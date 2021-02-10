@@ -1,0 +1,137 @@
+
+.slide-wrapper{
+  display: flex;
+  height: 100vh;
+  width:100vw;
+  
+  justify-content: space-around;;
+  align-items: center;
+
+  img{
+        min-height: 60vh;
+        max-height: 90vh;
+        max-width: 40vw;
+     }
+}
+
+.loadover{
+  position: absolute;
+  z-index: 9999;
+  background-color: #fff;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.mobile{
+  display: none;
+  @media only screen 
+  and (min-device-width: 1366px) 
+  and (max-device-width: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2){
+    display: block;
+    height: 100vh;
+    img{
+      min-height: 60vh;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+  @media only screen and (max-width: 1200px) {
+    display: block;
+    height: 100vh;
+    img{
+      min-height: 60vh;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.web{
+  @media only screen 
+  and (min-device-width: 1366px) 
+  and (max-device-width: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2){
+    display: none;
+  }
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.collection-gallery{
+  margin: 16vh 7vw 0 7vw;
+
+  @media only screen and (max-width: 1200px) {
+    margin: 6vh 7vw 0 7vw;
+  }
+  
+  @media only screen and (max-width: 1023px) {
+    display: none;
+  }
+    img{
+      margin-top: -5px;
+      margin-left: -1px;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+      width: 25%;
+    }
+
+    &_img{
+      @media only screen and (max-width:600px){
+        height: 100vh;
+     }
+    }
+}
+
+
+.ipad{
+  display: none;
+  margin-top: 55px;
+
+  @media only screen and (max-width: 1023px) {
+    display: block;
+  }
+
+ img{
+    width: 100%;
+    margin-top: -5px;
+  }
+}
+
+.collections_nav {
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
+
+  
+
+  position: absolute;
+  top: 10vh;
+  display: flex;
+  align-items: flex-end;
+  z-index: 9;
+
+  &_item {
+    list-style: none;
+    text-decoration-line: none;
+    font-family: 'Times New Roman', Times;;
+    color: #000;
+    font-size: 1.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    transition: color 2s, transform .3s;
+    margin-left: 2rem;
+    margin-bottom: 3vh;
+    cursor: pointer;
+  }
+
+  &_active {
+    text-decoration: underline;
+  }
+}

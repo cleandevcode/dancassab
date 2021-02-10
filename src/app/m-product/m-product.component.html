@@ -1,0 +1,247 @@
+<!-- LOADER -->
+<div class="backg" *ngIf="loading">
+  <div class="lds-ring abs-center">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
+<div *ngIf="!loading" id="fullpage">
+  <section class="section 1">
+    <form [formGroup]="form">
+      <div class="product flex-container">
+        <div class="flex_50 fm-100 relative flex-center">
+          <div
+            [ngStyle]="{
+              transform: sliderPosition,
+              '-webkit-transform': sliderPosition
+            }"
+            class="slider"
+          >
+            <div
+              *ngFor="let image of productImages; let i = index"
+              [ngClass]="{ active: sliderCursor === i + 1 }"
+              class="image-slider"
+            >
+              <img class="product_img" id="feature_img" [src]="image.src" />
+            </div>
+          </div>
+
+          <div class="pagination">
+            <div class="pagination_container">
+              <span
+                *ngFor="let image of productImages; let i = index"
+                class="dot"
+                [ngClass]="{
+                  'dot-active': sliderCursor === i + 1,
+                  'page-item': true
+                }"
+                (click)="moveSlider(i + 1)"
+                >{{ i }}</span
+              >
+            </div>
+            <button class="product_buy button zoom" (click)="showfull = true">
+              Zoom
+            </button>
+          </div>
+          <h5 class="product_title mobile">{{ product?.title }}</h5>
+        </div>
+
+        <div class="flex_50 fm-100 product_info">
+          <div class="fsb">
+            <div>
+              <h5 class="product_title web">{{ product?.title }}</h5>
+              <p *ngIf="variantMaterial" class="description">
+                <span>{{ "product.material" | translate }}: </span>
+                <span
+                  *ngFor="let material of variantMaterial; let last = last"
+                  class="variant product_variant-selection"
+                  [class.product_variant-selection_active]="
+                    material == variantSelection[0]
+                  "
+                  (click)="selectVariant(0, material)"
+                  >{{ material }}&nbsp;
+                </span>
+              </p>
+
+              <p *ngIf="variantColor" class="description">
+                {{ "product.color" | translate }}:
+                <img
+                  *ngFor="let color of variantColor; let last = last"
+                  [src]="color"
+                  class="variant-color"
+                  [class.variant-color_active]="color == variantSelection[1]"
+                  (click)="selectVariant(1, color)"
+                />
+              </p>
+              <p *ngIf="variantSize" class="description">
+                <span>{{ "product.size" | translate }}: </span>
+                <span
+                  *ngFor="
+                    let size of variantSize;
+                    let i = index;
+                    let last = last
+                  "
+                  class="product_variant-selection"
+                  [class.product_variant-selection_active]="
+                    size == variantSelection[2]
+                  "
+                  (click)="selectVariant(2, i)"
+                  >{{ size }}&nbsp;
+                </span>
+              </p>
+              <p *ngIf="compareAtPrice" class="compareAt mar-t-3">
+                {{ "product.currency" | translate }}
+                {{ compareAtPrice | currency: "USD":"symbol":"1.0-0" }}
+              </p>
+              <p class="description" [ngClass]="{ 'mar-t-3': !compareAtPrice }">
+                {{ "product.currency" | translate }}
+                {{ price | currency: "USD":"symbol":"1.0-0" }}
+              </p>
+              <button class="product_buy button" (click)="onSubmit()">
+                {{
+                  (checkTag(product, "pre-order")
+                    ? "product.pre"
+                    : "product.add"
+                  ) | translate
+                }}
+              </button>
+            </div>
+            <div style="width: 100%">
+              <p class="toggle description" (click)="toggle()">
+                {{ "product.toggle" | translate }}
+              </p>
+              <div
+                class="web"
+                id="drop"
+                style="display: none"
+                [innerHTML]="product?.descriptionHtml"
+              ></div>
+              <p class="toggle description" (click)="toggleSizes()">
+                {{ "product.sizes" | translate }}
+              </p>
+              <div class="sizes_table2">
+                <h3 class="sizes_table_title">
+                  {{ "product.woman" | translate }}
+                </h3>
+                <div class="switch">
+                  <input
+                    (click)="toggleTable()"
+                    type="checkbox"
+                    id="switch-sizes"
+                    class="switch__input"
+                    checked
+                  />
+                  <label for="switch-sizes" disable class="switch__label">{{
+                    "product.inches" | translate
+                  }}</label>
+                </div>
+                <table class="table table-in">
+                  <tr>
+                    <th>{{ "product.size" | translate }}</th>
+                    <th>{{ "product.chest" | translate }}</th>
+                    <th>{{ "product.waist" | translate }}</th>
+                    <th>{{ "product.back" | translate }}</th>
+                    <th>{{ "product.sleeve" | translate }}</th>
+                  </tr>
+                  <tr>
+                    <td>XS</td>
+                    <td>38.21 In</td>
+                    <td>36.6 In</td>
+                    <td>15.3 In</td>
+                    <td>25 In</td>
+                  </tr>
+                  <tr>
+                    <td>S</td>
+                    <td>39.8 In</td>
+                    <td>38.2 In</td>
+                    <td>15.7 In</td>
+                    <td>25.2 In</td>
+                  </tr>
+                  <tr>
+                    <td>M</td>
+                    <td>41.3 In</td>
+                    <td>39.8 In</td>
+                    <td>16.2 In</td>
+                    <td>25.6 In</td>
+                  </tr>
+                  <tr>
+                    <td>L</td>
+                    <td>42.9 In</td>
+                    <td>41.3 In</td>
+                    <td>16.7 In</td>
+                    <td>25.6 In</td>
+                  </tr>
+                  <tr>
+                    <td>XL</td>
+                    <td>44.5 In</td>
+                    <td>42.9 In</td>
+                    <td>17.2 In</td>
+                    <td>25.8 In</td>
+                  </tr>
+                </table>
+
+                <table class="table table-cm">
+                  <tr>
+                    <th>{{ "product.size" | translate }}</th>
+                    <th>{{ "product.chest" | translate }}</th>
+                    <th>{{ "product.waist" | translate }}</th>
+                    <th>{{ "product.back" | translate }}</th>
+                    <th>{{ "product.sleeve" | translate }}</th>
+                  </tr>
+                  <tr>
+                    <td>XS</td>
+                    <td>97 Cm</td>
+                    <td>93 Cm</td>
+                    <td>38.8 Cm</td>
+                    <td>63.5 Cm</td>
+                  </tr>
+                  <tr>
+                    <td>S</td>
+                    <td>101 Cm</td>
+                    <td>97 Cm</td>
+                    <td>40 Cm</td>
+                    <td>64 Cm</td>
+                  </tr>
+                  <tr>
+                    <td>M</td>
+                    <td>105 Cm</td>
+                    <td>101 Cm</td>
+                    <td>41.2 Cm</td>
+                    <td>64.5 Cm</td>
+                  </tr>
+                  <tr>
+                    <td>L</td>
+                    <td>109 Cm</td>
+                    <td>105 Cm</td>
+                    <td>42.4 Cm</td>
+                    <td>65 Cm</td>
+                  </tr>
+                  <tr>
+                    <td>XL</td>
+                    <td>113 Cm</td>
+                    <td>109 Cm</td>
+                    <td>43.6 Cm</td>
+                    <td>65.5 Cm</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+
+<div class="modal-img" *ngIf="showfull">
+  <!-- The Close Button -->
+  <button class="product_buy button close" (click)="showfull = false">
+    Zoom Out
+  </button>
+
+  <!-- Modal Content (The Image) -->
+  <img class="modal-content" [src]="full_img" />
+</div>

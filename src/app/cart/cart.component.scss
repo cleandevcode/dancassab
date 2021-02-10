@@ -1,0 +1,145 @@
+.cart {
+  &_bag {
+    z-index: 999999;
+    position: fixed;
+    top: 2rem;
+    right: 3rem;
+    display: flex;
+    align-items: flex-start;
+    &_icon {
+      cursor: pointer;
+      width: 3rem;
+      transition: all 0.3s;
+    }
+  }
+
+  &_modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    right: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    &-content {
+      display: flex !important;
+      flex-direction: column;
+      position: absolute;
+      background-color: #fefefe;
+      right: 0;
+      padding: 3rem 2rem 0;
+      border: 1px solid #888;
+      width: 35%;
+      min-height: 100%;
+      z-index: 999;
+      @media only screen and (min-device-width: 1366px) and (max-device-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+        width: 50%;
+      }
+      @media only screen and (max-width: 1200px) {
+        width: 50%;
+      }
+
+      @media only screen and (max-width: 800px) {
+        width: 100%;
+      }
+
+      &-text {
+        margin-bottom: 2rem;
+      }
+
+      &-title {
+        font-family: Sinergia;
+        text-transform: uppercase;
+      }
+
+      &-variant {
+        margin: 1rem 0;
+      }
+
+      &-price {
+        margin: 1rem 0;
+      }
+
+      &-continue {
+        text-align: center;
+        text-decoration: underline;
+      }
+
+      &-remove {
+        cursor: pointer;
+      }
+    }
+
+    &-close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 20px;
+      font-weight: bold;
+
+      &:hover,
+      &:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.checkout {
+  margin-top: auto;
+  &_btn {
+    padding: 0.7rem 0;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem 3rem;
+    background: transparent;
+    border: 2px solid;
+    width: 100%;
+  }
+  &_price {
+    font-family: Helvetica;
+    margin-bottom: 12px;
+  }
+
+  &_text {
+    font-family: Helvetica;
+    margin-top: 2px;
+  }
+}
+
+.tax {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.crossed {
+  text-decoration: line-through !important;
+  color: #0000007d !important;
+}
+
+.cart_button {
+  color: #231f20;
+  font-size: 1.4rem;
+  font-family: Helvetica;
+  margin: 2rem 0;
+  font-weight: 400;
+  padding: 1rem 3rem;
+  border: 1px solid #000000;
+  background-color: transparent;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s all;
+  &:hover {
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+  }
+
+  @media only screen and (max-width: 600px) {
+    margin: 0;
+  }
+}

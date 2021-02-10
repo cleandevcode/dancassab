@@ -1,0 +1,116 @@
+<!-- LOADER -->
+<div class="back">
+  <div *ngIf="loading" class="lds-ring abs-center">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <ul class="collections_nav">
+    <li
+      [routerLink]="['/shop-temp/SHOPALL']"
+      [routerLinkActive]="['collections_nav_active']"
+      class="collections_nav_item"
+    >
+      SHOP ALL
+    </li>
+    <li
+      [routerLink]="['/shop-temp/Spring Summer 2020']"
+      [routerLinkActive]="['collections_nav_active']"
+      class="collections_nav_item navbar_collection"
+    >
+      SPRING SUMMER 2020
+    </li>
+    <li
+      [routerLink]="['/shop-temp/Fall Winter 2019']"
+      [routerLinkActive]="['collections_nav_active']"
+      class="collections_nav_item navbar_collection"
+    >
+      FALL WINTER 2019
+    </li>
+    <li
+      [routerLink]="['/shop-temp/The Icons']"
+      [routerLinkActive]="['collections_nav_active']"
+      class="collections_nav_item"
+    >
+      THE ICONS
+    </li>
+    <li
+      [routerLink]="['/shop-temp/Tie Dye Capsule']"
+      [routerLinkActive]="['collections_nav_active']"
+      class="collections_nav_item"
+    >
+      TIE DYE
+    </li>
+  </ul>
+
+  <!-- First section -->
+
+  <div *ngIf="!loading" id="fullpage">
+    <section
+      *ngFor="let products of productsGroup; index as i"
+      class="section"
+      [id]="i"
+    >
+      <div class="full-height no_campaign_container">
+        <!-- <span class="grid_collection">{{products[0].collections[0].title}}</span> -->
+        <figure
+          *ngFor="let product of products; let i = index"
+          [routerLink]="['/m-product', product.collection, product.title]"
+          class="no_campaign_item"
+        >
+          <img
+            class="img-fit"
+            src="assets/images/greenglow.png"
+            alt="{{ product.title }}"
+            style="position: absolute"
+          />
+          <img
+            class="img-fit"
+            [src]="product.img_shown"
+            alt="{{ product.title }}"
+            style="position: absolute"
+          />
+          <h4
+            [routerLink]="['/m-product', product.collection, product.title]"
+            class="grid_title title-hover"
+          >
+            {{ product.title }}
+            <br />
+            <span style="font-size: 13px">
+              {{
+                product.variants[0].price
+                  | currency: "USD":"symbol":"1.0-0":"":""
+              }}
+              {{ "product.currency" | translate }}
+            </span>
+          </h4>
+          <div *ngIf="product.variants[0].compareAtPrice != null">
+            <div class="promo">
+              <span class="per"
+                >{{
+                  getDiscount(
+                    product.variants[0].compareAtPrice,
+                    product.variants[0].price
+                  )
+                }}%<br />OFF</span
+              >
+              <div class="animate">
+                <span class="char1">S</span><span class="char2">A</span
+                ><span class="char3">L</span><span class="char4">E</span
+                ><span class="char5">.</span><span class="char6">S</span
+                ><span class="char7">A</span><span class="char8">L</span
+                ><span class="char9">E</span><span class="char10">.</span
+                ><span class="char11">S</span><span class="char12">A</span
+                ><span class="char13">L</span><span class="char14">E</span
+                ><span class="char15">.</span><span class="char16">S</span
+                ><span class="char17">A</span><span class="char18">L</span
+                ><span class="char19">E</span><span class="char20">.</span>
+              </div>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </section>
+  </div>
+</div>

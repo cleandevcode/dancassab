@@ -1,0 +1,11 @@
+.wa{
+    position: fixed;
+    bottom: 2rem;
+    right: 3rem;
+    z-index: 999999;
+}
+
+.wa_img{
+    height: 5rem;
+    width: 5rem;
+}

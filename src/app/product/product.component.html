@@ -1,0 +1,407 @@
+<div class="row-mode mr-0 ml-0">
+  <!-- Start Desktop Nav -->
+  <app-nav-desktop class="col-md-3 d-none d-md-block px-md-4"></app-nav-desktop>
+  <!-- End Desktop Nav -->
+  <!-- Start Content -->
+  <div *ngIf="loading" class="lds-ring abs-center mt-5-mobile">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="col-md-9 col-lg-6 col-12 mt-5-mobile row pr-0" *ngIf="!loading">
+    <div class="col-sm-2 col-xxl-3 d-none d-sm-block"></div>
+    <ngx-slick-carousel
+      class="carousel main-slider col-sm-8 col-xxl-6 pr-0"
+      #slickModal="slick-carousel"
+      [config]="slideConfig"
+      (init)="slickInit($event)"
+    >
+      <div ngxSlickItem *ngFor="let image of productImages" class="slide">
+        <div class="col">
+          <img class="img-fluid m-auto" id="feature_img" [src]="image.src" />
+        </div>
+      </div>
+    </ngx-slick-carousel>
+    <div class="col-sm-2 col-xxl-3 d-none d-sm-block"></div>
+    <!-- <div class="pagination">
+          <button class="product_buy button zoom" (click)="showfull = true">
+            Zoom
+          </button>
+        </div> -->
+  </div>
+  <form [formGroup]="form" class="col-lg-3 col-md-12 col-12" *ngIf="!loading">
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-12 col-md-9 col-lg-12">
+        <h4 class="sinergia text-uppercase">{{ product?.title }}</h4>
+        <s *ngIf="compareAtPrice" class="compareAt mar-t-3">
+          {{ "product.currency" | translate
+          }}{{ compareAtPrice | currency: "USD":"symbol":"1.0-0" }}
+        </s>
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <p
+            class="description mb-0"
+            [ngClass]="{ 'mar-t-3': !compareAtPrice }"
+            [ngClass]="{
+              'text-danger': compareAtPrice !== '',
+              'text-decoration-line-through': !stock
+            }"
+          >
+            {{ "product.currency" | translate
+            }}{{ price | currency: "USD":"symbol":"1.0-0" }}
+          </p>
+          <span *ngIf="!stockLoading && !stock" class="text-uppercase">
+            {{ "product.sold out" | translate }}
+          </span>
+        </div>
+        <p style="line-height: 1">
+          <i *ngIf="variantColor" class="times text-uppercase">
+            {{ "product.color" | translate }}:</i
+          ><br />
+          <span> {{ productColor }} </span><br />
+          <img
+            *ngFor="let color of variantColor; let i = index"
+            [src]="color"
+            class="variant-color mr-3"
+            [class.variant-color_active]="color == variantSelection[1]"
+            (click)="selectVariant(1, color, i)"
+          />
+        </p>
+
+        <i *ngIf="variantSize" class="times text-uppercase pt-3">
+          {{ "product.size" | translate }}:
+        </i>
+        <div class="d-flex align-items-center my-3 justify-content-between">
+          <div
+            *ngFor="let size of variantSize; let i = index; let last = last"
+            class="product_variant-selection"
+            [class.product_variant-selection_active]="
+              size == variantSelection[2]
+            "
+            [ngStyle]="{ 'line-height': browser ? 2.8 : 0 }"
+            (click)="selectVariant(2, i, 0)"
+          >
+            {{ size }}
+          </div>
+          <div
+            *ngFor="let size of variantSizeFlag"
+            class="product_variant-selection"
+          ></div>
+        </div>
+        <p *ngIf="variantMaterial" class="times" style="line-height: 1">
+          <i class="times text-uppercase"
+            >{{ "product.material" | translate }}: </i
+          ><br />
+          <span class="variant product_variant-mat-selection"
+            >{{ productMat }}&nbsp;
+          </span>
+        </p>
+        <p class="text-center" style="font-size: 0.9em; margin-bottom: 12px">
+          <i
+            class="times text-uppercase"
+            [innerHTML]="'product.desc' | translate"
+          ></i>
+        </p>
+        <div class="my-2" *ngIf="!stockLoading && !stock">
+          <button class="bagBtn text-uppercase" (click)="stockModal = true">
+            {{ "product.notify" | translate }}
+          </button>
+        </div>
+        <div class="text-center">
+          <p *ngIf="preorder != null">
+            {{ "product.preorder" | translate }}{{ preorder }}
+          </p>
+          <button
+            class="bagBtn text-uppercase"
+            *ngIf="stock"
+            (click)="onSubmit()"
+          >
+            {{
+              (checkTag(product, "pre-order") ? "product.pre" : "product.add")
+                | translate
+            }}
+            - {{ "product.currency" | translate
+            }}{{ price | currency: "USD":"symbol":"1.0-0" }}
+          </button>
+        </div>
+
+        <div
+          class="web"
+          id="drop"
+          style="display: none"
+          [innerHTML]="product?.descriptionHtml"
+        ></div>
+        <div class="d-flex align-items-center justify-content-between mb-5">
+          <i class="toggle times text-uppercase" (click)="toggle()">
+            {{ "product.toggle" | translate }}
+          </i>
+          <i class="toggle times text-uppercase" (click)="chartModal = true">
+            {{ "product.sizes" | translate }}
+          </i>
+          <!-- <p class="toggle description" (click)="toggleRelated()">
+            {{ "product.related" | translate }}
+          </p> -->
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <section class="section related 2" *ngIf="showRelated">
+    <p class="toggle description related_back" (click)="toggleRelated()">
+      {{ "product.return" | translate }}
+    </p>
+    <div class="related_slider">
+      <div *ngFor="let prod of related_products" style="position: relative">
+        <img
+          class="related_img"
+          [src]="prod.images[0].src"
+          (click)="reset()"
+          [routerLink]="['/product', collection, prod.title]"
+          alt=""
+        />
+        <h5 class="product_title slide_title" style="text-align: center">
+          {{ prod.title }}
+        </h5>
+      </div>
+    </div>
+  </section>
+
+  <!-- End Content -->
+  <div class="modal-img" *ngIf="showfull">
+    <!-- The Close Button -->
+    <button class="product_buy button close" (click)="showfull = false">
+      Zoom Out
+    </button>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" [src]="full_img" />
+  </div>
+  <!-- Chart Modal -->
+  <div
+    class="modal-charts"
+    id="exampleSideModal1"
+    tabindex="-1"
+    aria-labelledby="exampleSideModal1"
+    aria-hidden="true"
+    *ngIf="chartModal"
+  >
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="text-uppercase" id="exampleSideModal1">
+          {{ "product.chart Title" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="chartModal = false"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="sizes_table2">
+          <p class="sizes_table_title">
+            {{ "product.woman" | translate }}
+          </p>
+          <div class="switch">
+            <input
+              (click)="toggleTable()"
+              type="checkbox"
+              id="switch-sizes"
+              class="switch__input"
+              checked
+            />
+            <label for="switch-sizes" disable class="switch__label">{{
+              "product.inches" | translate
+            }}</label>
+          </div>
+          <table class="table table-in" *ngIf="sizeChartsData.length > 0">
+            <tr [hidden]="countryInfo !== 'Mexico'">
+              <th>{{ "product.size" | translate }}</th>
+              <th [hidden]="!sizeChartsData[0].VAL_IN1">
+                {{ sizeChartsData[0].FIELDNAME_ES1 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_IN2">
+                {{ sizeChartsData[0].FIELDNAME_ES2 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_IN3">
+                {{ sizeChartsData[0].FIELDNAME_ES3 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_IN4">
+                {{ sizeChartsData[0].FIELDNAME_ES4 }}
+              </th>
+            </tr>
+            <tr [hidden]="countryInfo === 'Mexico'">
+              <th>{{ "product.size" | translate }}</th>
+              <th [hidden]="!sizeChartsData[0].VAL_IN1">
+                {{ sizeChartsData[0].FIELDNAME_EN1 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_IN2">
+                {{ sizeChartsData[0].FIELDNAME_EN2 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_IN3">
+                {{ sizeChartsData[0].FIELDNAME_EN3 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_IN4">
+                {{ sizeChartsData[0].FIELDNAME_EN4 }}
+              </th>
+            </tr>
+            <tr *ngFor="let size of sizeChartsData">
+              <td>{{ setSizeUnit(size.SKU) }}</td>
+              <td [hidden]="!size.VAL_IN1">{{ size.VAL_IN1 }} IN</td>
+              <td [hidden]="!size.VAL_IN2">{{ size.VAL_IN2 }} IN</td>
+              <td [hidden]="!size.VAL_IN3">{{ size.VAL_IN3 }} IN</td>
+              <td [hidden]="!size.VAL_IN4">{{ size.VAL_IN4 }} IN</td>
+            </tr>
+          </table>
+
+          <table class="table table-cm" *ngIf="sizeChartsData.length > 0">
+            <tr [hidden]="countryInfo !== 'Mexico'">
+              <th>{{ "product.size" | translate }}</th>
+              <th [hidden]="!sizeChartsData[0].VAL_CM1">
+                {{ sizeChartsData[0].FIELDNAME_ES1 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_CM2">
+                {{ sizeChartsData[0].FIELDNAME_ES2 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_CM3">
+                {{ sizeChartsData[0].FIELDNAME_ES3 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_CM4">
+                {{ sizeChartsData[0].FIELDNAME_ES4 }}
+              </th>
+            </tr>
+            <tr [hidden]="countryInfo === 'Mexico'">
+              <th>{{ "product.size" | translate }}</th>
+              <th [hidden]="!sizeChartsData[0].VAL_CM1">
+                {{ sizeChartsData[0].FIELDNAME_EN1 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_CM2">
+                {{ sizeChartsData[0].FIELDNAME_EN2 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_CM3">
+                {{ sizeChartsData[0].FIELDNAME_EN3 }}
+              </th>
+              <th [hidden]="!sizeChartsData[0].VAL_CM4">
+                {{ sizeChartsData[0].FIELDNAME_EN4 }}
+              </th>
+            </tr>
+            <tr *ngFor="let size of sizeChartsData">
+              <td>{{ setSizeUnit(size.SKU) }}</td>
+              <td [hidden]="!size.VAL_CM1">{{ size.VAL_CM1 }} CM</td>
+              <td [hidden]="!size.VAL_CM2">{{ size.VAL_CM2 }} CM</td>
+              <td [hidden]="!size.VAL_CM3">{{ size.VAL_CM3 }} CM</td>
+              <td [hidden]="!size.VAL_CM4">{{ size.VAL_CM4 }} CM</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal-charts"
+    id="exampleSideModal1"
+    tabindex="-1"
+    aria-labelledby="exampleSideModal1"
+    aria-hidden="true"
+    *ngIf="stockModal"
+  >
+    <div class="modal-content modal-stock">
+      <div class="modal-header text-center">
+        <h5 class="text-uppercase" id="exampleSideModal2">
+          {{ "product.notify" | translate }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="stockModal = false; s_text = ''; s_error = false"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Register your email address below to receive an email as soon as this
+          becomes available again.
+        </p>
+        <h4 class="sinergia text-uppercase mb-0">{{ product?.title }}</h4>
+        <input
+          class="form-control my-3"
+          type="email"
+          [value]="s_email"
+          (change)="onChangeEmail($event)"
+          placeholder="ENTER YOUR EMAIL"
+        />
+        <i class="times text-uppercase"> {{ "product.size" | translate }} </i>
+        <div class="d-flex align-items-center justify-content-between my-3">
+          <div
+            *ngFor="let size of s_variants; let i = index; let last = last"
+            class="s_variant hand-cursor"
+            [ngClass]="{
+              s_variant_active: s_v_id == getDecodedID(size.id)
+            }"
+            (click)="changeVariant(getDecodedID(size.id))"
+          >
+            {{ size.title }}
+          </div>
+        </div>
+        <i class="times text-uppercase"> ADD ME TO THE MAILING LIST </i>
+        <div class="d-flex align-items-center my-3">
+          <div
+            class="s_variant_mail hand-cursor"
+            [ngClass]="{
+              s_variant_mail_active: s_add_mailing == true
+            }"
+            (click)="changeVariantMail(true)"
+          >
+            YES
+          </div>
+          <div
+            class="s_variant_mail hand-cursor ml-4"
+            [ngClass]="{
+              s_variant_mail_active: s_add_mailing == false
+            }"
+            (click)="changeVariantMail(false)"
+          >
+            NO
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="notifyBtn text-uppercase"
+          (click)="notifyMe()"
+          [disabled]="stockLoading"
+        >
+          <div
+            class="spinner-border text-light"
+            role="status"
+            *ngIf="stockLoading"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          {{ "product.notify" | translate }}
+        </button>
+        <div class="mt-3 w-100">
+          <div *ngIf="s_error" class="error-container w-100">
+            {{ s_text }}
+          </div>
+          <div
+            *ngIf="!s_error && s_text !== ''"
+            class="success-container w-100"
+          >
+            {{ s_text }}
+            <span
+              class="ml-2 text-decoration-underline hand-cursor"
+              (click)="s_text = ''"
+              >Close</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOADER -->
