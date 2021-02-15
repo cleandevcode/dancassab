@@ -74,6 +74,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   sizeResult: any;
   sizeChartsData: any;
   countryInfo: any;
+  err_message: any;
 
   slideConfig = {
     "slidesToShow": 1, "slidesToScroll": 1, "dots": true, "infinite": true, "prevArrow": false,
@@ -112,8 +113,13 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.browser = false
     }
 
+    this.err_message = "";
     this.http.get('https://dancassabpublicassets.s3.amazonaws.com/sizingChart.csv', { responseType: 'text' }).subscribe(res => {
-      this.sizeData = this.toJson(res);
+      if (res) {
+        this.sizeData = this.toJson(res);
+      }
+    }, error => {
+      this.err_message = JSON.parse(localStorage.getItem('country')) === "Mexico" ? "Error de lectura. Informaci&oacute;n de tallas no disponible." : "Read error. Size information not available.";
     })
   }
 
@@ -188,7 +194,10 @@ export class ProductComponent implements OnInit, OnDestroy {
             let temp = this.filterByTags(this.products, this.colorVNM);
 
             this.product = temp[0];
-            console.log("current product->", this.product)
+            if (this.err_message == '') {
+              this.sizeChartsData = this.getKeyByMultiValue(this.sizeData, this.product);
+              this.setSizeChartData(0);
+            }
 
             this.getVariantsByID(this.product);
             this.productColor = this.getProductColor(this.product);
@@ -196,10 +205,8 @@ export class ProductComponent implements OnInit, OnDestroy {
             this.preorder = this.getPreorderDate(this.product);
 
             this.getVariants(this.products);
-            this.sizeChartsData = this.getKeyByMultiValue(this.sizeData, this.product);
 
             this.setImages(this.product);
-            this.setSizeChartData(0);
             this.variant = this.product.variants[0];
             // form the product array we construct the variants color and materials
             this.price = this.product.variants[0].price;
@@ -372,6 +379,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   getKeyByMultiValue(object: any, value: Product) {
+    console.log("111->", object);
+    console.log("here?->", value)
     let result = [];
     value.variants.map(ele => {
       object.map(element => {

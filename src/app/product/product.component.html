@@ -200,7 +200,10 @@
         ></button>
       </div>
       <div class="modal-body">
-        <div class="sizes_table2">
+        <div *ngIf="err_message" class="sizes_table2">
+          <p class="sizeErrorMsg">{{ err_message }}</p>
+        </div>
+        <div *ngIf="!err_message" class="sizes_table2">
           <p class="sizes_table_title">
             {{ "product.woman" | translate }}
           </p>
