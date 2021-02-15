@@ -379,8 +379,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   getKeyByMultiValue(object: any, value: Product) {
-    console.log("111->", object);
-    console.log("here?->", value)
     let result = [];
     value.variants.map(ele => {
       object.map(element => {
@@ -389,7 +387,6 @@ export class ProductComponent implements OnInit, OnDestroy {
         }
       });
     });
-    console.log('results->', result)
     return result;
   }
 
